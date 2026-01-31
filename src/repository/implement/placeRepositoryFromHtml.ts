@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import console from 'node:console';
 
-import { format as formatDate } from 'date-fns';
 import { injectable } from 'tsyringe';
 
 /* eslint-disable @typescript-eslint/prefer-destructuring */
@@ -24,6 +23,28 @@ import { IPlaceRepository } from '../interface/IPlaceRepository';
 @injectable()
 export class PlaceRepositoryFromHtml implements IPlaceRepository {
     /**
+     * scraping APIを使用するレースタイプの設定を取得する
+     * @returns useGradeの値、またはscraping APIを使用しない場合はnull
+     */
+    private getScrapingApiConfig(
+        raceType: RaceType,
+    ): { useGrade: boolean } | null {
+        switch (raceType) {
+            case RaceType.JRA:
+            case RaceType.NAR: {
+                return { useGrade: false };
+            }
+            case RaceType.KEIRIN:
+            case RaceType.AUTORACE: {
+                return { useGrade: true };
+            }
+            default: {
+                return null;
+            }
+        }
+    }
+
+    /**
      * 開催データを取得する
      * このメソッドで日付の範囲を指定して開催データを取得する
      * @param searchFilter
@@ -37,47 +58,21 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
         // 各月のデータを取得して結合
         const periodPlaceEntityLists: OldPlaceEntity[][] = [];
         for (const raceType of raceTypeList) {
-            if (raceType === RaceType.JRA) {
+            // scraping APIを使用するレースタイプの場合は共通処理
+            const scrapingConfig = this.getScrapingApiConfig(raceType);
+            if (scrapingConfig !== null) {
                 const placeEntityList =
-                    await this.fetchYearPlaceEntityListForJra(
+                    await this.fetchMonthPlaceEntityListFromScrapingApi(
                         raceType,
                         startDate,
                         finishDate,
+                        scrapingConfig.useGrade,
                     );
                 periodPlaceEntityLists.push(placeEntityList);
                 continue;
             }
-            if (raceType === RaceType.NAR) {
-                const placeEntityList =
-                    await this.fetchMonthPlaceEntityListForNar(
-                        raceType,
-                        startDate,
-                        finishDate,
-                    );
-                periodPlaceEntityLists.push(placeEntityList);
-                continue;
-            }
-            if (raceType === RaceType.KEIRIN) {
-                const placeEntityList =
-                    await this.fetchMonthPlaceEntityListForKeirin(
-                        raceType,
-                        startDate,
-                        finishDate,
-                    );
-                periodPlaceEntityLists.push(placeEntityList);
-                continue;
-            }
-            if (raceType === RaceType.AUTORACE) {
-                const placeEntityList =
-                    await this.fetchMonthPlaceEntityListForAutorace(
-                        raceType,
-                        startDate,
-                        finishDate,
-                    );
-                periodPlaceEntityLists.push(placeEntityList);
-                continue;
-            }
-            // リストを生成
+
+            // それ以外のレースタイプは期間リストを生成して処理
             const periodList = this.generatePeriodList(
                 raceType,
                 startDate,
@@ -312,161 +307,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
     }
 
     /**
-     * HTMLから開催データを取得する（中央競馬）
-     * @param raceType - レース種別
-     * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
-     */
-    @Logger
-    private async fetchYearPlaceEntityListForJra(
-        raceType: RaceType,
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<OldPlaceEntity[]> {
-        const yearStart = formatDate(startDate, 'yyyy-MM-dd');
-        const yearEnd = formatDate(finishDate, 'yyyy-MM-dd');
-        const baseUrl = OldEnvStore.env.SCRAPING_BASE_URL;
-        const url = `${baseUrl}/scraping/place?raceTypeList=${raceType}&startDate=${yearStart}&finishDate=${yearEnd}`;
-        console.debug('fetching scraping API (yearly)', url);
-        try {
-            const res = await fetch(url);
-            if (!res.ok) {
-                let errBody: string | undefined = undefined;
-                try {
-                    errBody = await res.text();
-                } catch {
-                    errBody = '<failed to read body>';
-                }
-                console.error(
-                    'scraping API error',
-                    res.status,
-                    res.statusText,
-                    url,
-                    errBody,
-                );
-                return [];
-            }
-            const body: any = await res.json();
-            const placeListFromScraping = body?.places ?? body ?? [];
-            const placeEntityList: OldPlaceEntity[] = [];
-            for (const placeFromScraping of placeListFromScraping) {
-                try {
-                    const datetimeRaw =
-                        (placeFromScraping as any)?.datetime ??
-                        (placeFromScraping as any)?.dateTime ??
-                        (placeFromScraping as any)?.placeData?.dateTime;
-                    if (!datetimeRaw) {
-                        console.warn(
-                            'place without datetime',
-                            placeFromScraping,
-                        );
-                        continue;
-                    }
-                    const datePart = String(datetimeRaw).split('T')[0];
-                    const y = Number(datePart.slice(0, 4));
-                    const m = Number(datePart.slice(5, 7));
-                    const d = Number(datePart.slice(8, 10));
-                    const placeDate = new Date(y, m - 1, d);
-
-                    const placeName: string = (
-                        (placeFromScraping as any)?.placeName ??
-                        (placeFromScraping as any)?.placeData?.location ??
-                        (placeFromScraping as any)?.placeData?.placeName ??
-                        ''
-                    ).trim();
-                    if (!placeName) {
-                        console.warn('place without name', placeFromScraping);
-                        continue;
-                    }
-
-                    const heldRaw =
-                        (placeFromScraping as any)?.placeHeldDays ??
-                        (placeFromScraping as any)?._heldDayData ??
-                        (placeFromScraping as any)?.placeData?.placeHeldDays ??
-                        (placeFromScraping as any)?.placeData?._heldDayData ??
-                        undefined;
-                    let heldDayDataArg = undefined as undefined | HeldDayData;
-                    if (heldRaw && typeof heldRaw === 'object') {
-                        const heldTimes = Number(
-                            heldRaw.heldTimes ??
-                                heldRaw.held_times ??
-                                heldRaw.held_times_count ??
-                                heldRaw.heldTimesCount ??
-                                undefined,
-                        );
-                        const heldDayTimes = Number(
-                            heldRaw.heldDayTimes ??
-                                heldRaw.held_day_times ??
-                                heldRaw.heldDayTimesCount ??
-                                heldRaw.heldDayTimesCount ??
-                                undefined,
-                        );
-                        if (
-                            !Number.isNaN(heldTimes) &&
-                            !Number.isNaN(heldDayTimes)
-                        ) {
-                            try {
-                                heldDayDataArg = HeldDayData.create(
-                                    heldTimes,
-                                    heldDayTimes,
-                                );
-                            } catch (error) {
-                                console.warn(
-                                    'invalid heldDayData from scraping',
-                                    heldRaw,
-                                    error,
-                                );
-                                heldDayDataArg = undefined;
-                            }
-                        }
-                    }
-
-                    const placeData = PlaceData.create(
-                        raceType,
-                        placeDate,
-                        placeName,
-                    );
-                    placeEntityList.push(
-                        OldPlaceEntity.createWithoutId(
-                            placeData,
-                            heldDayDataArg,
-                            undefined,
-                        ),
-                    );
-                } catch (error) {
-                    console.error(
-                        `failed to map scraping place (${raceType})`,
-                        placeFromScraping,
-                        error,
-                    );
-                }
-            }
-            return placeEntityList;
-        } catch (error) {
-            console.error(`failed to fetch scraping API (${raceType})`, error);
-            return [];
-        }
-    }
-
-    /**
-     * HTMLから開催データを取得する（地方競馬）
-     * @param raceType - レース種別
-     * @param date - 取得対象の月（Dateオブジェクトの年月部分のみ使用）
-     */
-    @Logger
-    private async fetchMonthPlaceEntityListForNar(
-        raceType: RaceType,
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<OldPlaceEntity[]> {
-        return this.fetchMonthPlaceEntityListFromScrapingApi(
-            raceType,
-            startDate,
-            finishDate,
-            false,
-        );
-    }
-
-    /**
      * scraping APIからplaceデータを取得しOldPlaceEntity[]に変換（NAR/KEIRIN/AUTORACE共通）
      * @param raceType - レース種別
      * @param date - 取得対象の月
@@ -566,44 +406,6 @@ export class PlaceRepositoryFromHtml implements IPlaceRepository {
                 undefined, // grade は海外競馬では不要
             ),
         ];
-    }
-
-    /**
-     * HTMLから開催データを取得する（競輪）
-     * @param raceType - レース種別
-     * @param date
-     */
-    @Logger
-    private async fetchMonthPlaceEntityListForKeirin(
-        raceType: RaceType,
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<OldPlaceEntity[]> {
-        return this.fetchMonthPlaceEntityListFromScrapingApi(
-            raceType,
-            startDate,
-            finishDate,
-            true,
-        );
-    }
-
-    /**
-     * HTMLから開催データを取得する（オートレース）
-     * @param raceType - レース種別
-     * @param date
-     */
-    @Logger
-    private async fetchMonthPlaceEntityListForAutorace(
-        raceType: RaceType,
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<OldPlaceEntity[]> {
-        return this.fetchMonthPlaceEntityListFromScrapingApi(
-            raceType,
-            startDate,
-            finishDate,
-            true,
-        );
     }
 
     /**
